@@ -1,0 +1,69 @@
+### Necessário para pegar o token
+
+### Post
+# @name loginAutenticado
+POST http://localhost:40000/Login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "qwe",
+    "password": "qwe"
+}
+
+### Seta o token
+@accessToken = {{loginAutenticado.response.body.$.token}}
+@username = {{loginAutenticado.response.body.$.username}}
+
+### teste de inserção de consulta
+POST http://localhost:40000/insertConsulta HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "consultaid": 0,
+    "descricao": "Consulta de rotina",
+    "valor": 499.99,
+    "dataconsulta": "2026-12-15",
+    "datarealizacao": "2026-12-29",
+    "status": true,
+    "pacienteid": 1,
+    "deleted": false
+}
+
+### teste de buscar todos as consultas
+GET http://localhost:40000/getAllConsultas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+}
+
+### teste de buscar consulta por ID
+GET http://localhost:40000/getConsultaByID/1 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+### teste de atualização de consulta
+PUT http://localhost:40000/updateConsulta/1 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "descricao": "Consulta cardiológica",
+    "valor": 950.00,
+    "dataconsulta": "2026-10-25",
+    "datarealizacao": "2026-10-25",
+    "status": true,
+    "pacienteid": 2,
+    "deleted": false
+}
+
+### teste de deleção de consulta
+DELETE http://localhost:40000/deleteConsulta/1 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+### teste de buscar pacientes para consultas
+GET http://localhost:40000/getPacientesToConsultas HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}
